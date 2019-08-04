@@ -1,0 +1,8 @@
+setup.py
+rject/__init__.py
+rject/packed.py
+rject/rject.py
+rject.egg-info/PKG-INFO
+rject.egg-info/SOURCES.txt
+rject.egg-info/dependency_links.txt
+rject.egg-info/top_level.txt
