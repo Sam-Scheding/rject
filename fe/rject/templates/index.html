@@ -6,8 +6,63 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   </head>
-  <body style="background-color: #F0F0F0;">
+  <body onload="brython({debug: 1})" style="background-color: #F0F0F0;">
     <br>
     {{ content }}
-  </body>
+
+
+  <style media="screen">
+    input {
+      margin: 10px;
+      margin-top: 20px;
+    }
+
+    #form_text_input {
+      width: 80%;
+      height: 40px;
+      margin-right: 30px;
+      background: #FFFFFF;
+    }
+  </style>
+
+<script type="text/python3">
+from browser import document, bind
+
+   import urllib.request
+   import urllib.parse
+   import os
+   import json
+
+   BASE_URL = "http://localhost:8000/api/todo"
+
+   test = JSON.parse('{}')
+   print("HERE: ", test)
+   @bind('#form_submit', 'click')
+   def add_to_do(ev):
+
+     url = os.path.join(BASE_URL, 'create')
+     data = urllib.parse.urlencode({'text': 'test'}).encode('utf-8')
+     print(data)
+     response = urllib.request.urlopen(url=url, data=data)
+     print(response)
+
+
+   """
+    Uses a decorator to bind #GET_button's click event to the function
+    AFAIK only the standard library is available. So no requests :(
+
+    This is only an example, and isn't part of the todo app
+   """
+   @bind("#GET_button", "click")
+   def get(ev):
+     url = BASE_URL
+     response = urllib.request.urlopen(url)
+     print(response.read())
+
+</script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.7.3/brython.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.7.3/brython_stdlib.js"></script>
+</body>
 </html>

@@ -1,4 +1,7 @@
 from rject.packed import Component, Elem, packed
+import requests, json
+
+BASE_URL = "http://localhost:8000/api/todo"
 
 @packed
 def app():
@@ -7,6 +10,8 @@ def app():
             <div class="row">
                 <ToDoForm />
                 <ToDoContainer />
+                <PrintButton />
+                <GETButton />
             </div>
         </div>
     )
@@ -17,13 +22,18 @@ class ToDoForm(Component):
         return(
             <div class="col-md-6">
                 <form class="form-inline">
-                  <div class="form-group mb-6">
                     <label class="sr-only">Email</label>
-                    <input type="text" class="form-control-plaintext" placeholder="Enter a to do" />
-                  </div>
-                  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <input type="text" id="form_text_input" class="form-control-plaintext" placeholder="Enter a to do" />
+                    <SubmitButton />
                 </form>
             </div>
+        )
+
+class SubmitButton(Component):
+
+    def render(self):
+        return(
+            <input type="button" id="form_submit" class="btn btn-primary mb-2" value="Add" />
         )
 
 class ToDoContainer(Component):
@@ -38,20 +48,30 @@ class ToDoContainer(Component):
 
 class ToDoList(Component):
 
-    def render(self):
-        to_do_items = ['to do 1', 'to do 2', 'to do 3']
+    to_do_items = []
 
-        if to_do_items:
-            todos = list(map(self.to_link, to_do_items))
-        return(
-            <ul class="list-group">
-                {todos}
-            </ul>
-        )
+    # Populate the todo array with items from the api
+    def prerender(self):
+        r = requests.get(BASE_URL)
+        todos = json.loads(r.content)
+        self.to_do_items += todos
+
+    def render(self):
+        self.prerender()
+
+        if self.to_do_items:
+            todos = list(map(self.to_link, self.to_do_items))
+
+            return(
+                <ul class="list-group">
+                    {todos}
+                </ul>
+            )
+        return(<ul></ul>)
 
     def to_link(self, to_do_item):
 
-        return (<ToDoItem item={to_do_item} /> )
+        return (<ToDoItem item={to_do_item['text']} /> )
 
 class ToDoItem(Component):
 
@@ -62,4 +82,23 @@ class ToDoItem(Component):
             <li class="list-group-item">
                 {item}
             </li>
+        )
+
+#################################
+#
+#    Below are some examples that I thought were interesting
+#
+#################################
+class GETButton(Component):
+
+    def render(self):
+        return(
+            <input type="button" id="GET_button" class="btn btn-primary mb-2" value="GET" />
+        )
+
+class PrintButton(Component):
+
+    def render(self):
+        return(
+            <input type="button" onclick="print()" id="print_button" class="btn btn-primary mb-2" value="Print" />
         )

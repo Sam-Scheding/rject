@@ -1,4 +1,7 @@
 from rject.packed import Component, Elem, packed
+import requests, json
+
+BASE_URL = "http://localhost:8000/api/todo"
 
 @packed
 def app():
@@ -18,6 +21,10 @@ def app():
                 Elem(ToDoForm),
                 ' ',
                 Elem(ToDoContainer),
+                ' ',
+                Elem(PrintButton),
+                ' ',
+                Elem(GETButton),
                 ' ',
             ),
             ' ',
@@ -41,41 +48,42 @@ class ToDoForm(Component):
                     },
                     ' ',
                     Elem(
-                        'div',
+                        'label',
                         {
-                            'class': 'form-group mb-6',
+                            'class': 'sr-only',
                         },
-                        ' ',
-                        Elem(
-                            'label',
-                            {
-                                'class': 'sr-only',
-                            },
-                            'Email',
-                        ),
-                        ' ',
-                        Elem(
-                            'input',
-                            {
-                                'type': 'text',
-                                'class': 'form-control-plaintext',
-                                'placeholder': 'Enter a to do',
-                            },
-                        ),
-                        ' ',
+                        'Email',
                     ),
                     ' ',
                     Elem(
-                        'button',
+                        'input',
                         {
-                            'type': 'submit',
-                            'class': 'btn btn-primary mb-2',
+                            'type': 'text',
+                            'id': 'form_text_input',
+                            'class': 'form-control-plaintext',
+                            'placeholder': 'Enter a to do',
                         },
-                        'Submit',
                     ),
+                    ' ',
+                    Elem(SubmitButton),
                     ' ',
                 ),
                 ' ',
+            )
+        )
+
+class SubmitButton(Component):
+
+    def render(self):
+        return(
+            Elem(
+                'input',
+                {
+                    'type': 'button',
+                    'id': 'form_submit',
+                    'class': 'btn btn-primary mb-2',
+                    'value': 'Add',
+                },
             )
         )
 
@@ -97,29 +105,39 @@ class ToDoContainer(Component):
 
 class ToDoList(Component):
 
-    def render(self):
-        to_do_items = ['to do 1', 'to do 2', 'to do 3']
+    to_do_items = []
 
-        if to_do_items:
-            todos = list(map(self.to_link, to_do_items))
-        return(
-            Elem(
-                'ul',
-                {
-                    'class': 'list-group',
-                },
-                ' ',
-                todos,
-                ' ',
+    # Populate the todo array with items from the api
+    def prerender(self):
+        r = requests.get(BASE_URL)
+        todos = json.loads(r.content)
+        self.to_do_items += todos
+
+    def render(self):
+        self.prerender()
+
+        if self.to_do_items:
+            todos = list(map(self.to_link, self.to_do_items))
+
+            return(
+                Elem(
+                    'ul',
+                    {
+                        'class': 'list-group',
+                    },
+                    ' ',
+                    todos,
+                    ' ',
+                )
             )
-        )
+        return(Elem('ul'))
 
     def to_link(self, to_do_item):
 
         return (Elem(
             ToDoItem,
             {
-                'item': to_do_item,
+                'item': to_do_item['text'],
             },
         ) )
 
@@ -137,5 +155,41 @@ class ToDoItem(Component):
                 ' ',
                 item,
                 ' ',
+            )
+        )
+
+#################################
+#
+#    Below are some examples that I thought were interesting
+#
+#################################
+class GETButton(Component):
+
+    def render(self):
+        return(
+            Elem(
+                'input',
+                {
+                    'type': 'button',
+                    'id': 'GET_button',
+                    'class': 'btn btn-primary mb-2',
+                    'value': 'GET',
+                },
+            )
+        )
+
+class PrintButton(Component):
+
+    def render(self):
+        return(
+            Elem(
+                'input',
+                {
+                    'type': 'button',
+                    'onclick': 'print()',
+                    'id': 'print_button',
+                    'class': 'btn btn-primary mb-2',
+                    'value': 'Print',
+                },
             )
         )

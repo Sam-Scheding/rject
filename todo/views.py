@@ -1,4 +1,5 @@
 from rject import rject
+import os
 from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.views import View
@@ -9,7 +10,7 @@ class ToDoView(View):
 
     def get(self, request, *args, **kwargs):
 
-        r = rject.Rject('App')
+        r = rject.Rject(os.path.join('fe', 'App'))
         html = r.render()
         soup = BeautifulSoup(html, "html.parser")
         content = soup.prettify()

@@ -419,7 +419,6 @@ def translate_file(pyx_file, py_path):
 def compile(src, dest):
 
     for root, dirs, files in os.walk(src):
-
         for filename in files:
             if filename.endswith('.py'):
                 py_filename = '{}.py'.format(filename[:-3])
