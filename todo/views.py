@@ -5,13 +5,13 @@ from django.http import HttpResponse
 from django.views import View
 from django.views import generic
 
+class ToDoView(generic.TemplateView):
 
-class ToDoView(View):
+    template_name = 'index.html'
 
-    def get(self, request, *args, **kwargs):
-
+    def content(self):
         r = rject.Rject(os.path.join('fe', 'App'))
         html = r.render()
         soup = BeautifulSoup(html, "html.parser")
         content = soup.prettify()
-        return HttpResponse(content)
+        return content

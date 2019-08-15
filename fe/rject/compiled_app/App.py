@@ -155,6 +155,16 @@ class ToDoItem(Component):
                 ' ',
                 item,
                 ' ',
+                Elem(
+                    'input',
+                    {
+                        'type': 'button',
+                        'id': 'delete_button',
+                        'class': 'btn btn-primary mb-2',
+                        'value': 'Delete',
+                    },
+                ),
+                ' ',
             )
         )
 

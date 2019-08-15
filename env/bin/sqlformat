@@ -1,5 +1,4 @@
-#!/Users/SamTheNormalOne/projects/rject_todo/env/bin/python3
-
+#!/Users/samscheding/projects/rject/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  </head>
+  <body onload="brython({debug: 1})" style="background-color: #F0F0F0;">
+    <br>
+    {% autoescape off %}
+      {{ view.content }}
+    {% endautoescape %}
+
+  <style media="screen">
+    input {
+      margin: 10px;
+      margin-top: 20px;
+    }
+
+    #form_text_input {
+      width: 80%;
+      height: 40px;
+      margin-right: 30px;
+      background: #FFFFFF;
+    }
+  </style>
+
+
+<script type="text/javascript" src="{% static 'brython.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'brython_stdlib.js' %}"></script>
+<script src="{% static 'main.py' %}" type="text/python3"></script>
+
+</body>
+</html>

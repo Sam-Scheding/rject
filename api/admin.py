@@ -1,3 +1,6 @@
 from django.contrib import admin
-
-# Register your models here.
+# from .models import ToDo
+#
+# class ToDoAdmin(admin.ModelAdmin):
+#     pass
+# admin.site.register(ToDo, ToDoAdmin)

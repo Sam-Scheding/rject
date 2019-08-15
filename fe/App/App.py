@@ -81,6 +81,7 @@ class ToDoItem(Component):
         return (
             <li class="list-group-item">
                 {item}
+                <input type="button" id="delete_button" class="btn btn-primary mb-2" value="Delete" />
             </li>
         )
 
