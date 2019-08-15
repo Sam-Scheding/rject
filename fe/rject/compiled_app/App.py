@@ -42,32 +42,24 @@ class ToDoForm(Component):
                 },
                 ' ',
                 Elem(
-                    'form',
+                    'label',
                     {
-                        'class': 'form-inline',
+                        'class': 'sr-only',
                     },
-                    ' ',
-                    Elem(
-                        'label',
-                        {
-                            'class': 'sr-only',
-                        },
-                        'Email',
-                    ),
-                    ' ',
-                    Elem(
-                        'input',
-                        {
-                            'type': 'text',
-                            'id': 'form_text_input',
-                            'class': 'form-control-plaintext',
-                            'placeholder': 'Enter a to do',
-                        },
-                    ),
-                    ' ',
-                    Elem(SubmitButton),
-                    ' ',
+                    'Email',
                 ),
+                ' ',
+                Elem(
+                    'input',
+                    {
+                        'type': 'text',
+                        'id': 'form_text_input',
+                        'class': 'form-control-plaintext',
+                        'placeholder': 'Enter a to do',
+                    },
+                ),
+                ' ',
+                Elem(SubmitButton),
                 ' ',
             )
         )
@@ -154,16 +146,6 @@ class ToDoItem(Component):
                 },
                 ' ',
                 item,
-                ' ',
-                Elem(
-                    'input',
-                    {
-                        'type': 'button',
-                        'id': 'delete_button',
-                        'class': 'btn btn-primary mb-2',
-                        'value': 'Delete',
-                    },
-                ),
                 ' ',
             )
         )

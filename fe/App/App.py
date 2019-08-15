@@ -21,11 +21,9 @@ class ToDoForm(Component):
     def render(self):
         return(
             <div class="col-md-6">
-                <form class="form-inline">
-                    <label class="sr-only">Email</label>
-                    <input type="text" id="form_text_input" class="form-control-plaintext" placeholder="Enter a to do" />
-                    <SubmitButton />
-                </form>
+                <label class="sr-only">Email</label>
+                <input type="text" id="form_text_input" class="form-control-plaintext" placeholder="Enter a to do" />
+                <SubmitButton />
             </div>
         )
 
@@ -81,7 +79,6 @@ class ToDoItem(Component):
         return (
             <li class="list-group-item">
                 {item}
-                <input type="button" id="delete_button" class="btn btn-primary mb-2" value="Delete" />
             </li>
         )
 
